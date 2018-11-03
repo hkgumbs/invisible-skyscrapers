@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    {% seo %}
+    <style>
+    html,body {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      transition: transform .20s;
+      animation: fadein .40s;
+      font: 1.20em/1.62em sans-serif;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1em;
+    }
+    h1,h2,h3 {
+      line-height: 1.20em;
+    }
+    @keyframes fadein {
+      0%   { opacity: 0; transform: translateY(1em); }
+      100% { opacity: 1; }
+    }
+    </style>
+  </head>
+  <body><main>{{ content }}</body>
+</html>
