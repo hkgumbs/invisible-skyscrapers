@@ -10,6 +10,14 @@ TWILIO = Twilio::REST::Client.new(
   ENV.fetch("TWILIO_SID"), ENV.fetch("TWILIO_AUTH_TOKEN"))
 TWILIO_NUMBER = ENV.fetch("TWILIO_NUMBER")
 
+before do
+  if request.request_method == 'OPTIONS'
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST"
+    halt 200
+  end
+end
+
 def ok
   return {}
 end
