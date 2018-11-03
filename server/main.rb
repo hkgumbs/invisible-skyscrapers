@@ -37,9 +37,18 @@ def new_crime!(tweet)
   end
 end
 
+def new_prayer!
+  DB[:prayer].insert(date: Time.now)
+end
+
 post "/incident" do
   authorize!
   tweet = json.fetch "tweet"
   new_crime! tweet if has_keywords tweet
+  ok
+end
+
+post "/prayer" do
+  new_prayer!
   ok
 end
