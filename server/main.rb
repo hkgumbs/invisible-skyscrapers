@@ -26,7 +26,7 @@ def has_keywords(tweet)
   tweet =~ /shot|shoot/ && tweet =~ /die|dead/
 end
 
-def new_crime!
+def new_crime!(tweet)
   DB[:crime].insert(tweet: tweet, date: Time.now)
   TWILIO.api.account.messages.create(
     from: TWILIO_NUMBER,
@@ -38,6 +38,6 @@ end
 post "/incident" do
   authorize!
   tweet = json.fetch "tweet"
-  new_crime! if has_keywords tweet
+  new_crime! tweet if has_keywords tweet
   ok
 end
