@@ -23,16 +23,18 @@ def authorize!
 end
 
 def has_keywords(tweet)
-  tweet =~ /shot|shoot/ && tweet =~ /die|dead/
+  tweet =~ /shot|shoot/ && tweet =~ /kill|fatal/
 end
 
 def new_crime!(tweet)
   DB[:crime].insert(tweet: tweet, date: Time.now)
-  TWILIO.api.account.messages.create(
-    from: TWILIO_NUMBER,
-    to: DB[:userinfo].select_map(:pnum).join(","),
-    body: "Pray at noticechicago.com!\n\n" + tweet
-  )
+  DB[:userinfo].select_map(:pnum).each do |recipient|
+    TWILIO.api.account.messages.create(
+      from: TWILIO_NUMBER,
+      to: recipient,
+      body: "Pray at noticechicago.com!\n\n" + tweet
+    )
+  end
 end
 
 post "/incident" do
