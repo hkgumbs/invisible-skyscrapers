@@ -50,8 +50,8 @@ end
 
 def get_plot_stuff
   {
-    "Gunshots": DB[last_five_days "crime"],
-    "Prayer": DB[last_five_days "prayer"],
+    "Gunshots": DB[last_five_days "crime"].select_map(:count),
+    "Prayer": DB[last_five_days "prayer"].select_map(:count),
   }
 end
 
