@@ -29,10 +29,29 @@ def new_prayer!
   DB[:prayer].insert(date: Time.now)
 end
 
+def last_five_days(table)
+  <<-SQL
+    SELECT count(#{table})
+    FROM #{table}
+    FULL JOIN (
+      SELECT column1 AS date, 0 AS zero FROM (
+      VALUES
+        (CURRENT_DATE), 
+        (CURRENT_DATE + INTERVAL '-1 day'), 
+        (CURRENT_DATE + INTERVAL '-2 day'), 
+        (CURRENT_DATE + INTERVAL '-3 day'),
+        (CURRENT_DATE + INTERVAL '-4 day')
+      ) x
+    ) last_week ON #{table}.date = last_week.date
+    GROUP BY last_week.date
+    ORDER BY last_week.date;
+  SQL
+end
+
 def get_plot_stuff
   {
-    "Gunshots": [1, 2, 1, 0, 1],
-    "Prayer": [100, 250, 100, 10, 150],
+    "Gunshots": DB[last_five_days "crime"],
+    "Prayer": DB[last_five_days "prayer"],
   }
 end
 
