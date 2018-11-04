@@ -1,34 +1,14 @@
-require "json"
 require "pg"
 require "twilio-ruby"
 require "sequel"
 require "sinatra"
 
+require_relative "api"
+
 DB = Sequel.connect ENV.fetch("DATABASE_URL")
-AUTH_SECRET = ENV.fetch("AUTH_SECRET")
 TWILIO = Twilio::REST::Client.new(
   ENV.fetch("TWILIO_SID"), ENV.fetch("TWILIO_AUTH_TOKEN"))
 TWILIO_NUMBER = ENV.fetch("TWILIO_NUMBER")
-
-before do
-  if request.request_method == 'OPTIONS'
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "POST"
-    halt 200
-  end
-end
-
-def ok
-  return {}
-end
-
-def json
-  JSON.load(request.body)
-end
-
-def authorize!
-  raise unless env["HTTP_AUTHORIZATION"] == AUTH_SECRET
-end
 
 def has_keywords(tweet)
   tweet =~ /shot|shoot/ && tweet =~ /kill|fatal/
@@ -50,13 +30,13 @@ def new_prayer!
 end
 
 post "/incident" do
-  authorize!
-  tweet = json.fetch "tweet"
+  Api.authorize!
+  tweet = Api.json.fetch "tweet"
   new_crime! tweet if has_keywords tweet
-  ok
+  Api.ok
 end
 
 post "/prayer" do
   new_prayer!
-  ok
+  Api.ok
 end
