@@ -10,7 +10,7 @@ TWILIO = Twilio::REST::Client.new(
   ENV.fetch("TWILIO_SID"), ENV.fetch("TWILIO_AUTH_TOKEN"))
 TWILIO_NUMBER = ENV.fetch("TWILIO_NUMBER")
 
-def has_keywords(tweet)
+def has_keywords?(tweet)
   tweet =~ /shot|shoot/ && tweet =~ /kill|fatal/
 end
 
@@ -39,7 +39,7 @@ end
 post "/incident" do
   Api.authorize!
   tweet = Api.json.fetch "tweet"
-  new_crime! tweet if has_keywords tweet
+  new_crime! tweet if has_keywords? tweet
   Api.ok
 end
 
