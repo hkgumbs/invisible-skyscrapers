@@ -10,7 +10,7 @@ TWILIO = Twilio::REST::Client.new(
   ENV.fetch("TWILIO_SID"), ENV.fetch("TWILIO_AUTH_TOKEN"))
 TWILIO_NUMBER = ENV.fetch("TWILIO_NUMBER")
 
-def has_keywords(tweet)
+def has_keywords?(tweet)
   tweet =~ /shot|shoot/ && tweet =~ /kill|fatal/
 end
 
@@ -29,14 +29,25 @@ def new_prayer!
   DB[:prayer].insert(date: Time.now)
 end
 
+def get_plot_stuff
+  {
+    "Gunshots": [1, 2, 1, 0, 1],
+    "Prayer": [100, 250, 100, 10, 150],
+  }
+end
+
 post "/incident" do
   Api.authorize!
   tweet = Api.json.fetch "tweet"
-  new_crime! tweet if has_keywords tweet
+  new_crime! tweet if has_keywords? tweet
   Api.ok
 end
 
 post "/prayer" do
   new_prayer!
   Api.ok
+end
+
+get "/plot/last-week" do
+  Api.ok get_plot_stuff
 end

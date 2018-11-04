@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <!doctype html>
 <html>
@@ -18,7 +19,6 @@
   <div style="width:75%;">
     <canvas id="canvas"></canvas>
   </div>
-  <button id="pray" disabled>I prayed today</button>
   <script>
     var pastFiveDates = [];
 
@@ -41,83 +41,81 @@
    function getSum(total, num) {
     return total + Math.round(num);
    }
-    var days = ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
-      var config = {
-        type: 'line',
-        data: {
-          labels: pastFiveDates,
-          datasets: [{
-            label: 'Gunshots',
-            backgroundColor: 'rgb(255, 99, 132, 0.5)',
-            borderColor: window.chartColors.red,
-            data: [],
-            fill: true
-          }, {
-            label: 'Prayer',
-            fill: true,
-            backgroundColor: 'rgb(54, 162, 235, 0.5)',
-            borderColor: window.chartColors.blue,
-            data: []
-          }]
+  
+    var config = {
+      type: 'line',
+      data: {
+        labels: pastFiveDates,
+        datasets: [{
+          label: 'Gunshots',
+          backgroundColor: 'rgb(255, 99, 132, 0.5)',
+          borderColor: window.chartColors.red,
+          data: [],
+          fill: true
+        }, {
+          label: 'Prayer',
+          fill: true,
+          backgroundColor: 'rgb(54, 162, 235, 0.5)',
+          borderColor: window.chartColors.blue,
+          data: []
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Gunshots vs Prayer Line Chart'
         },
-        options: {
-          responsive: true,
-          title: {
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+        },
+        hover: {
+          mode: 'nearest',
+          intersect: true
+        },
+        scales: {
+          xAxes: [{
             display: true,
-            text: 'Gunshots vs Prayer Line Chart'
-          },
-          tooltips: {
-            mode: 'index',
-            intersect: false,
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true
-          },
-          scales: {
-            xAxes: [{
+            scaleLabel: {
               display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Days'
-              }
-            }],
-            yAxes: [{
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Percentage'
-              }
-            },
-            ]
-          }
-        }
-      };
-      window.onload = function() {
-        var ctx = document.getElementById('canvas').getContext('2d');
-        window.myLine = new Chart(ctx, config);
-        const API = "https://notice312.herokuapp.com";
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", API + "/plot/last-week", true);
-        xhr.setRequestHeader('Content-Type','application/json; charset=utf-8');
-        xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState === 4) {
-            var response = JSON.parse(xhr.response);
-            for(var i in config.data.datasets){
-              var total = response[config.data.datasets[i].label].reduce(getSum, 0);
-              var normalizedData = response[config.data.datasets[i].label].map(item=>{
-                return (item*100)/total;
-              });
-              config.data.datasets[i].data = normalizedData;
+              labelString: 'Days'
             }
-            window.myLine.update();
-          }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Percentage'
+            }
+          },
+          ]
         }
-        xhr.send(null);
-      };
-
-      var colorNames = Object.keys(window.chartColors);
+      }
+    };
+    window.onload = function() {
+      var ctx = document.getElementById('canvas').getContext('2d');
+      window.myLine = new Chart(ctx, config);
+      const API = "https://notice312.herokuapp.com";
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", API + "/plot/last-week", true);
+      xhr.setRequestHeader('Content-Type','application/json; charset=utf-8');
+      xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+          var response = JSON.parse(xhr.response);
+          for(var i in config.data.datasets){
+            var total = response[config.data.datasets[i].label].reduce(getSum, 0);
+            var normalizedData = response[config.data.datasets[i].label].map(item=>{
+              return (item*100)/total;
+            });
+            config.data.datasets[i].data = normalizedData;
+          }
+          window.myLine.update();
+        }
+      }
+      xhr.send(null);
+    };
       
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -141,3 +139,31 @@
   </body>
 
 </html>
+
+<img style="width:100%" src="/logo.png">
+<h2>Mobilizing Christians to actively pray for a city devastated by violence</h2>
+
+<div style="text-align:center">
+  <button class="button" id="pray" disabled>Join in prayer</button>
+</div>
+
+<script>
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if(!localStorage.getItem(today.toDateString())) {
+    const pray = document.getElementById("pray");
+    pray.disabled = false;
+
+    pray.addEventListener("click", function() {
+      const API = "https://notice312.herokuapp.com";
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", API + "/prayer", true);
+      xhr.setRequestHeader('Content-Type','application/json; charset=utf-8');
+      xhr.send("{}");
+
+      pray.disabled = true;
+      localStorage.setItem(today.toDateString(), 'X');
+    });
+  }
+</script>
