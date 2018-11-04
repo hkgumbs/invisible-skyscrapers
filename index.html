@@ -1,4 +1,5 @@
 ---
+layout: default
 ---
 <script>
     var pastFiveDates = [];
@@ -28,7 +29,7 @@
       data: {
         labels: pastFiveDates,
         datasets: [{
-          label: 'Gunshots',
+          label: 'Gunshot Fatalities',
           backgroundColor: 'rgb(255, 99, 132, 0.5)',
           borderColor: window.chartColors.red,
           data: [],
@@ -45,7 +46,7 @@
         responsive: true,
         title: {
           display: true,
-          text: 'Gunshots vs Prayer Line Chart'
+          text: 'Gunshot Fatalities vs Prayer Line Chart'
         },
         tooltips: {
           mode: 'index',
