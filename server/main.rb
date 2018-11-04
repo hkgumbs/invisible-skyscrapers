@@ -11,7 +11,7 @@ TWILIO = Twilio::REST::Client.new(
 TWILIO_NUMBER = ENV.fetch("TWILIO_NUMBER")
 
 def has_keywords?(tweet)
-  tweet =~ /shot|shoot/ && tweet =~ /kill|fatal/
+  tweet =~ /shot|shoot/i && tweet =~ /kill|fatal/i
 end
 
 def new_crime!(tweet)
