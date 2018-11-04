@@ -57,7 +57,7 @@ end
 
 post "/incident" do
   Api.authorize! env
-  tweet = Api.json.fetch "tweet"
+  tweet = Api.json(request).fetch "tweet"
   new_crime! tweet if has_keywords? tweet
   Api.ok
 end

@@ -14,7 +14,7 @@ module Api
     return data.to_json
   end
 
-  def self.json
+  def self.json(request)
     JSON.load(request.body)
   end
 
