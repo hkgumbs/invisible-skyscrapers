@@ -29,6 +29,13 @@ def new_prayer!
   DB[:prayer].insert(date: Time.now)
 end
 
+def get_plot_stuff
+  {
+    "Gunshots": [1, 2, 1, 0, 1],
+    "Prayer": [100, 250, 100, 10, 150],
+  }
+end
+
 post "/incident" do
   Api.authorize!
   tweet = Api.json.fetch "tweet"
@@ -39,4 +46,8 @@ end
 post "/prayer" do
   new_prayer!
   Api.ok
+end
+
+get "/plot/last-week" do
+  Api.ok get_plot_stuff
 end

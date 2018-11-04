@@ -12,8 +12,8 @@ before do
 end
 
 module Api
-  def self.ok
-    return {}
+  def self.ok(data = {})
+    return data
   end
 
   def self.json
