@@ -56,7 +56,7 @@ def get_plot_stuff
 end
 
 post "/incident" do
-  Api.authorize!
+  Api.authorize! env
   tweet = Api.json.fetch "tweet"
   new_crime! tweet if has_keywords? tweet
   Api.ok

@@ -18,7 +18,7 @@ module Api
     JSON.load(request.body)
   end
 
-  def self.authorize!
+  def self.authorize!(env)
     raise unless env["HTTP_AUTHORIZATION"] == AUTH_SECRET
   end
 end
