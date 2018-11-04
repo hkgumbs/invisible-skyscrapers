@@ -1,22 +1,4 @@
-
-<!doctype html>
-<html>
-
-<head>
-  <title>Line Chart</title>
-  <script src="./node_modules/chart.js/dist/Chart.bundle.js"></script>
-  <script src="./utils.js"></script>
-  <style>
-    canvas{
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
-  </style>
-</head>
-<body>
-  
-  <script>
+<script>
     var pastFiveDates = [];
 
     for (var i=4; i>=0; i--) {
@@ -113,16 +95,13 @@
       }
       xhr.send(null);
     };
-    </script>
-  </body>
-
-</html>
+</script>
 
 <img style="width:100%" src="logo.png">
 <h2>Mobilizing Christians to actively pray for a city devastated by violence</h2>
 <div style="width:100%;">
-    <canvas id="canvas"></canvas>
-  </div>
+  <canvas id="canvas"></canvas>
+</div>
 <div style="text-align:center">
   <button class="button" id="pray" disabled>Join in prayer</button>
 </div>
