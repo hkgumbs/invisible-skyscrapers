@@ -5,7 +5,7 @@ layout: default
 <button id="pray">I prayed today</button>
 
 <script>
-  const API = "https://https://notice312.herokuapp.com";
+  const API = "https://notice312.herokuapp.com";
   document.getElementById("pray").addEventListener("click", function() {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", API + "/prayer", true);
