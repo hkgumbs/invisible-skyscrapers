@@ -13,7 +13,7 @@ end
 
 module Api
   def self.ok(data = {})
-    return data
+    return data.to_json
   end
 
   def self.json
